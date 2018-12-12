@@ -37,6 +37,11 @@
 ## PHP Boilerplate (low level)
 
 ### Routing
+- .htaccess setup
+- Get base folder
+- Get URI
+- MVC?
+
 ### Template systeme
 ### DataBase management
 
