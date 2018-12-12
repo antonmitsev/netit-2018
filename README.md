@@ -40,7 +40,14 @@
 - .htaccess setup
 - Get base folder
 - Get URI
+- Autoloader
 - MVC?
+
+Example:
+**address1/address2** (C: default, A: default)
+**admin/page_edit** (C: admin, action: page_edit)
+
+
 
 ### Template systeme
 ### DataBase management
