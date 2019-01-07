@@ -1,4 +1,4 @@
-<pre><?php
+<?php
 # 'DOCUMENT_ROOT' => 'C:/xampp/htdocs/',
 # 'SCRIPT_FILENAME' => 'C:/xampp/htdocs/netit-2018/index.php',
 
@@ -8,6 +8,7 @@ $uri = trim(str_ireplace($base_folder, '', $_SERVER['REQUEST_URI']), '/');
 // Dir = file structure directory
 $www_directory = $_SERVER['DOCUMENT_ROOT'] . ltrim($base_folder, '/');
 $base_directory = realpath($www_directory . '..');
+$libs_directory = realpath($base_directory . '/libs');
 $controllers_directory = realpath($base_directory . '/controllers');
 $models_directory = realpath($base_directory . '/models');
 $views_directory = realpath($base_directory . '/views');
@@ -15,25 +16,33 @@ $views_directory = realpath($base_directory . '/views');
 // directory/classname.php
 function __autoload($class) {
     // AdminController > admincontroller.php
-    global $controllers_directory, $models_directory, $views_directory;
+    global $libs_directory, $controllers_directory, $models_directory, $views_directory;
+
+    $file = $libs_directory . DIRECTORY_SEPARATOR . strtolower($class) . '.php';
+    if (file_exists($file)) {
+        require_once($file);
+        return true;
+    }
+
     $file = $controllers_directory . DIRECTORY_SEPARATOR . strtolower($class) . '.php';
     $file = str_ireplace('controller.php', '.controller.php', $file);
     if (file_exists($file)) {
         require_once($file);
         return true;
     }
+
     $file = $models_directory . DIRECTORY_SEPARATOR . strtolower($class) . '.php';
     $file = str_ireplace('model.php', '.model.php', $file);
     if (file_exists($file)) {
         require_once($file);
         return true;
     }
-    $file = $views_directory . DIRECTORY_SEPARATOR . strtolower($class) . '.php';
+/*    $file = $views_directory . DIRECTORY_SEPARATOR . strtolower($class) . '.php';
     $file = str_ireplace('view.php', '.view.php', $file);
     if (file_exists($file)) {
         require_once($file);
         return true;
-    }
+    } // */
     echo $class . ' class not found!';
     exit(1);
 }
@@ -42,6 +51,8 @@ function __autoload($class) {
 $uri_arr = explode('/', $uri);
 define('CONTROLLER', strtolower($uri_arr[0]));
 define('ACTION', ! isset($uri_arr[1]) ? 'default' : strtolower($uri_arr[1]));
+define('LAYOUT', CONTROLLER);
+define('VIEW', ACTION);
 
 switch (CONTROLLER) {
     case 'ajax':
@@ -58,7 +69,8 @@ if (! method_exists($class, $method)) {
 }
 
 $application = new $class();
-var_dump($application->$method());
-
-
-echo 'It works!';
+$template = new Template(
+    array(
+        'content' => $application->$method()
+    )
+);

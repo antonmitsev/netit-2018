@@ -56,7 +56,9 @@ Example:
 
 ## Project high level
 
-### Template
+### 
+TODO!!! - $title and $description functionalization
+
 ### Base functionalities
 ### Admin part
 #### Login
