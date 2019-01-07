@@ -46,7 +46,7 @@
 Example:
 **address1/address2** (C: default, A: default)
 **admin/page_edit** (C: admin, action: page_edit)
-
+**ajax/page_name** (C: ajax, action: page_name)
 
 
 ### Template systeme

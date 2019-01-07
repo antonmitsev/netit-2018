@@ -14,18 +14,22 @@ $views_directory = realpath($base_directory . '/views');
 
 // directory/classname.php
 function __autoload($class) {
+    // AdminController > admincontroller.php
     global $controllers_directory, $models_directory, $views_directory;
     $file = $controllers_directory . DIRECTORY_SEPARATOR . strtolower($class) . '.php';
+    $file = str_ireplace('controller.php', '.controller.php', $file);
     if (file_exists($file)) {
         require_once($file);
         return true;
     }
     $file = $models_directory . DIRECTORY_SEPARATOR . strtolower($class) . '.php';
+    $file = str_ireplace('model.php', '.model.php', $file);
     if (file_exists($file)) {
         require_once($file);
         return true;
     }
     $file = $views_directory . DIRECTORY_SEPARATOR . strtolower($class) . '.php';
+    $file = str_ireplace('view.php', '.view.php', $file);
     if (file_exists($file)) {
         require_once($file);
         return true;
@@ -34,8 +38,27 @@ function __autoload($class) {
     exit(1);
 }
 
-SomeClass::test();
+// Routing
+$uri_arr = explode('/', $uri);
+define('CONTROLLER', strtolower($uri_arr[0]));
+define('ACTION', ! isset($uri_arr[1]) ? 'default' : strtolower($uri_arr[1]));
 
-var_dump($base_folder, $uri, $www_directory, $base_directory, $controllers_directory);
+switch (CONTROLLER) {
+    case 'ajax':
+    case 'admin':
+        $class = CONTROLLER . 'Controller';
+        break;
+    default:
+        $class = 'DefaultController';
+}
+
+$method = 'action_' . ACTION;
+if (! method_exists($class, $method)) {
+    $method = 'action_default';
+}
+
+$application = new $class();
+var_dump($application->$method());
+
 
 echo 'It works!';
