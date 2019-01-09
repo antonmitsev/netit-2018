@@ -1,6 +1,7 @@
 <?php
 class AdminController extends BaseController {
     function action_default() {
+        var_dump($this->dbConn);
         return 'I am default action of Admin Controller!';  
     }
 
