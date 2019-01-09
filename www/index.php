@@ -1,6 +1,6 @@
 <?php
-# 'DOCUMENT_ROOT' => 'C:/xampp/htdocs/',
-# 'SCRIPT_FILENAME' => 'C:/xampp/htdocs/netit-2018/index.php',
+
+error_reporting(E_ALL);
 
 $base_folder = str_ireplace('index.php', '', $_SERVER['SCRIPT_NAME']);
 
@@ -12,6 +12,20 @@ $libs_directory = realpath($base_directory . '/libs');
 $controllers_directory = realpath($base_directory . '/controllers');
 $models_directory = realpath($base_directory . '/models');
 $views_directory = realpath($base_directory . '/views');
+
+if (Config::$debug_mode) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+} else {
+    ini_set('display_errors', 0);
+    ini_set('display_startup_errors', 0);    
+}
+
+
+# 'DOCUMENT_ROOT' => 'C:/xampp/htdocs/',
+# 'SCRIPT_FILENAME' => 'C:/xampp/htdocs/netit-2018/index.php',
+
+
 
 // directory/classname.php
 function __autoload($class) {

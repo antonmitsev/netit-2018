@@ -1,7 +1,13 @@
 <?php
 class AdminController extends BaseController {
     function action_default() {
-        var_dump($this->dbConn);
+        // var_dump($this->dbConn);
+        // var_dump($this->dbConn->escape("O'hara"));
+        /* var_dump($this->dbConn->insert(
+            "INSERT INTO `user` (email, `password`) VALUES ('me@tonymitsev.com', '111');"
+        ), $this->dbConn->lastInsertId()); //*/
+        // var_dump($this->dbConn->select("SELECT * FROM `user2`"));
+
         return 'I am default action of Admin Controller!';  
     }
 

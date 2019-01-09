@@ -62,6 +62,7 @@ Example:
 - Connect
 - Escape
 - Execute
+- Select
 - Insert -> get insert id
 
 ## Project high level
