@@ -62,7 +62,8 @@ function __autoload($class) {
 }
 
 // Routing
-$uri_arr = explode('/', $uri);
+$uri_arr = explode('?', $uri);
+$uri_arr = explode('/', $uri_arr[0]);
 define('CONTROLLER', strtolower($uri_arr[0]));
 define('ACTION', ! isset($uri_arr[1]) ? 'default' : strtolower($uri_arr[1]));
 define('LAYOUT', CONTROLLER);
