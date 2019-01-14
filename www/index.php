@@ -68,6 +68,7 @@ define('ACTION', ! isset($uri_arr[1]) ? 'default' : strtolower($uri_arr[1]));
 define('LAYOUT', CONTROLLER);
 define('VIEW', ACTION);
 
+// Main Router
 switch (CONTROLLER) {
     case 'ajax':
     case 'admin':

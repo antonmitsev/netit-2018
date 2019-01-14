@@ -20,9 +20,12 @@ class Template {
             $layout_file =  $views_directory . DIRECTORY_SEPARATOR . 'defaultlayout.view.php';
         }
 
-        $view_file =  $views_directory . DIRECTORY_SEPARATOR . VIEW . '.view.php';
+        $view_file =  $views_directory . DIRECTORY_SEPARATOR . LAYOUT . DIRECTORY_SEPARATOR . VIEW . '.view.php';
         if (!file_exists($view_file)){
-            $view_file =  $views_directory . DIRECTORY_SEPARATOR . 'default.view.php';
+            $view_file =  $views_directory . DIRECTORY_SEPARATOR . LAYOUT . DIRECTORY_SEPARATOR . 'default.view.php';
+            if (!file_exists($view_file)){
+                $view_file =  $views_directory . DIRECTORY_SEPARATOR . 'default.view.php';
+            }
         }
 
         $this->params['template'] = array(
