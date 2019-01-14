@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 error_reporting(E_ALL);
 
 $base_folder = str_ireplace('index.php', '', $_SERVER['SCRIPT_NAME']);
@@ -71,6 +71,10 @@ define('VIEW', ACTION);
 
 // Main Router
 switch (CONTROLLER) {
+    case 'captcha':
+        $_SESSION['captcha'] = 1111;
+        echo $_SESSION['captcha'];
+        exit(0);
     case 'ajax':
     case 'admin':
         $class = CONTROLLER . 'Controller';

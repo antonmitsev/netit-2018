@@ -1,4 +1,20 @@
 <?php
+include($libs_directory . "/simple-php-captcha-master/simple-php-captcha.php");
+$_SESSION['_CAPTCHA']['config'] = simple_php_captcha( array(
+    'min_length' => 5,
+    'max_length' => 5,
+    'characters' => 'ABCDEFGHJKLMNPRSTUVWXYZabcdefghjkmnprstuvwxyz23456789',
+    'min_font_size' => 28,
+    'max_font_size' => 28,
+    'color' => '#666',
+    'angle_min' => 0,
+    'angle_max' => 10,
+    'shadow' => true,
+    'shadow_color' => '#fff',
+    'shadow_offset_x' => -1,
+    'shadow_offset_y' => 1
+));
+
 class AdminController extends BaseController {
     function action_default() {
         // var_dump($this->dbConn);
@@ -32,6 +48,19 @@ class AdminController extends BaseController {
     function action_menu_edit() {
             
     }    
+
+    function action_register() {        
+        if(isset($_POST['submitter'])) {
+                // Form submitted
+            if ($_SESSION['captcha'] == $_POST['captcha']) {
+                // Captcha correct!
+            }
+        } else {
+            // Not submitted
+            $_SESSION['captcha'] = simple_php_captcha();
+            return '<img src="' . $_SESSION['captcha']['image_src'] . '" alt="CAPTCHA" />';
+        }
+    }
 
 #### Pages    
 }
