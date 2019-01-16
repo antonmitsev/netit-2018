@@ -1,4 +1,5 @@
 # Net IT Web dev project - 2018
+# Theme by https://colorlib.com/
 
 ## DataBase setup
 > CREATE USER 'wd_2018u'@'localhost' IDENTIFIED VIA mysql_native_password USING '***';
