@@ -7,7 +7,12 @@
     <meta name="description" content="<?php echo @$params['html_description']; ?>"/>
 </head>
 <body>
-    <?php echo @$params['page_content']; ?>
+    <ul>
+<?php foreach($params['menus_1'] as $item): ?>
+        <li><a href="<?php echo Helpers::menuItemFormat($base_folder , $item['url']); ?>"><?php echo $item['menu_text']; ?></a></li>
+<?php endforeach; ?>
+    </ul>
+<?php echo @$params['page_content']; ?>
 </body>
 </html>
     

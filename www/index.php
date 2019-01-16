@@ -91,6 +91,7 @@ if (! method_exists($class, $method)) {
 $application = new $class();
 $template = new Template(
     array(
-        'content' => $application->$method()
+        'content' => $application->$method(),
+        'menus_1' => @$application->menus[1]
     )
 );

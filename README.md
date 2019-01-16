@@ -8,8 +8,8 @@
 > GRANT SELECT, INSERT, UPDATE, DELETE ON `wd\_2018`.* TO 'wd_2018u'@'localhost';
 
 ### `user` - User table
-- user_id
 > CREATE TABLE `wd_2018`.`user` ( `user_id` INT NOT NULL AUTO_INCREMENT , `email` VARCHAR(50) NOT NULL , `password` VARCHAR(64) NOT NULL , `rights` INT NOT NULL DEFAULT '0' , `active` INT NOT NULL DEFAULT '0' , PRIMARY KEY (`user_id`)) ENGINE = InnoDB;
+- user_id
 - email
 - password
 - rights
@@ -27,6 +27,7 @@
 - active
 
 ### `menu` - Menus table
+> CREATE TABLE `wd_2018`.`menu` ( `menu_id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `menu_text` VARCHAR(20) NOT NULL , `lang_id` TINYINT(2) NOT NULL , `url` VARCHAR(2048) NOT NULL , `cat_id` TINYINT(2) UNSIGNED NOT NULL , `position` TINYINT(2) UNSIGNED NOT NULL , `active` TINYINT(1) NOT NULL , PRIMARY KEY (`menu_id`)) ENGINE = InnoDB;
 - menu_id
 - menu_text
 - lang_id
@@ -81,3 +82,5 @@ TODO!!! - $title and $description functionalization
 ## Mobile application
 
 
+##### Data/records
+INSERT INTO `menu` (`menu_id`, `menu_text`, `lang_id`, `url`, `cat_id`, `position`, `active`) VALUES (NULL, 'Начало', '1', '/', '1', '1', '1'), (NULL, 'За нас', '1', '/about.html', '1', '2', '1'), (NULL, 'Цени и услуги', '1', '/services.html', '1', '3', '1'), (NULL, 'Галерия', '1', '/foto-galeriya', '1', '4', '1'), (NULL, 'Блог', '1', '/blog', '1', '5', '1'), (NULL, 'Контакти', '1', '/kontakti', '1', '6', '1');

@@ -35,6 +35,7 @@ class Template {
     }
 
     public function printLayout($params) {
+        global $base_folder;
         include($this->params['template']['layout']);
     }
 

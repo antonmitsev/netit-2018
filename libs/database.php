@@ -11,6 +11,7 @@ class DataBase {
             Config::$database[$conn]['pass'],
             Config::$database[$conn]['db']
         );
+        $this->execute("SET NAMES utf8");
     }
 
     public function escape($query = '', $appos = true) {
