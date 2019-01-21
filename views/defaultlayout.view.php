@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Trim - Free Bootstrap 4 Template by Colorlib</title>
+    <title><?php echo htmlspecialchars(@$params['page_content_db']['html_title'], ENT_QUOTES, 'utf-8');?></title>
+		<meta name="description" content="<?php echo htmlspecialchars(@$params['page_content_db']['html_description'], ENT_QUOTES, 'utf-8');?>"/>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -39,7 +40,9 @@
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
 <?php foreach($params['menus_1'] as $item): ?>
-                <li class="nav-item"><a class="nav-link" href="<?php echo Helpers::menuItemFormat($base_folder , $item['url']); ?>"><?php echo $item['menu_text']; ?></a></li>
+                <li class="nav-item<?php echo (
+									$item['url'] == '/' . URI ? ' active' : ''
+								);?>"><a class="nav-link" href="<?php echo Helpers::menuItemFormat($base_folder , $item['url']); ?>"><?php echo $item['menu_text']; ?></a></li>
 <?php endforeach; ?>            
 	          <!-- TODO <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>-->
 	          
@@ -58,7 +61,7 @@
         	</a>
           <div class="col-md-6 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
           	<p class="mb-3" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Created by <a href="#">Colorlib.com</a></p>
-            <h1 class="mb-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">We will make you stylish</h1>
+            <h1 class="mb-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><?php echo @$params['page_content_db']['heading'];?></h1>
             <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><a href="https://vimeo.com/45830194" class="btn btn-primary px-4 py-3">Book an Appointment</a></p>
           </div>
         </div>
@@ -106,17 +109,7 @@
 
     <section class="ftco-section">
     	<div class="container">
-    		<div class="row justify-content-center mb-4">
-          <div class="col-md-7 heading-section ftco-animate text-center">
-            <h2 class="mb-4">Welcome to <span>Trim</span> A Hair Salon</h2>
-            <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
-          </div>
-        </div>
-    		<div class="row justify-content-center">
-    			<div class="col-md-8 text-center ftco-animate">
-    				<p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their.</p>
-    			</div>
-    		</div>
+<?php echo @$params['page_content_db']['content'];?>
     	</div>
     </section>
 
@@ -257,7 +250,17 @@
             <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
             <p class="mt-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
           </div>
-        </div>
+				</div>
+				
+				<?php foreach($params['services_0'] as $item): 
+				
+				// array_slice(0, count($params['services_0']) / 2)
+				// array_slice(count($params['services_0']) / 2), count($params['services_0'])
+
+				endforeach;
+				?>
+
+
         <div class="row">
         	<div class="col-md-6">
         		<div class="pricing-entry ftco-animate">
@@ -336,7 +339,9 @@
         			</div>
         		</div>
         	</div>
-        </div>
+				</div>
+				
+
     	</div>
     </section>
 

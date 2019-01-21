@@ -68,6 +68,8 @@ define('CONTROLLER', strtolower($uri_arr[0]));
 define('ACTION', ! isset($uri_arr[1]) ? 'default' : strtolower($uri_arr[1]));
 define('LAYOUT', CONTROLLER);
 define('VIEW', ACTION);
+define('URI', $uri_arr[0]);
+
 
 // Main Router
 switch (CONTROLLER) {
@@ -92,6 +94,8 @@ $application = new $class();
 $template = new Template(
     array(
         'content' => $application->$method(),
-        'menus_1' => @$application->menus[1]
+        'menus_1' => @$application->menus[1],
+        'services_0' => @application->services[0];
+        'page_content_db' => @$application->page_content_db
     )
 );

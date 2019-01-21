@@ -17,6 +17,7 @@
 - active
 
 ### `page` - Pages table
+> CREATE TABLE `wd_2018`.`page` ( `page_id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `lang_id` TINYINT(2) UNSIGNED NOT NULL DEFAULT '1' , `uri` VARCHAR(2048) NOT NULL , `html_title` VARCHAR(100) NOT NULL DEFAULT '' , `html_description` VARCHAR(500) NOT NULL DEFAULT '' , `html_keywords` VARCHAR(100) NOT NULL DEFAULT '' , `heading` VARCHAR(50) NOT NULL , `content` TEXT NOT NULL , `active` TINYINT(1) NOT NULL DEFAULT '1' , PRIMARY KEY (`page_id`)) ENGINE = InnoDB;
 - page_id
 - lang_id
 - uri
@@ -82,6 +83,18 @@ TODO!!! - $title and $description functionalization
 
 ## Mobile application
 
+
+## Customized data
+### DB
+
+#### Database `service`
+> CREATE TABLE `wd_2018`.`service` ( `service_id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(100) NOT NULL , `description` VARCHAR(2000) NULL , `price` FLOAT NOT NULL , `position` TINYINT(2) NOT NULL DEFAULT '0' , `active` TINYINT(1) NOT NULL DEFAULT '1' , PRIMARY KEY (`service_id`)) ENGINE = InnoDB;
+- service_id
+- name
+- description
+- price
+- position
+- active
 
 ##### Data/records
 INSERT INTO `menu` (`menu_id`, `menu_text`, `lang_id`, `url`, `cat_id`, `position`, `active`) VALUES (NULL, 'Начало', '1', '/', '1', '1', '1'), (NULL, 'За нас', '1', '/about.html', '1', '2', '1'), (NULL, 'Цени и услуги', '1', '/services.html', '1', '3', '1'), (NULL, 'Галерия', '1', '/foto-galeriya', '1', '4', '1'), (NULL, 'Блог', '1', '/blog', '1', '5', '1'), (NULL, 'Контакти', '1', '/kontakti', '1', '6', '1');
