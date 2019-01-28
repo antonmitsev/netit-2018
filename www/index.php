@@ -69,7 +69,13 @@ define('ACTION', ! isset($uri_arr[1]) ? 'default' : strtolower($uri_arr[1]));
 define('LAYOUT', CONTROLLER);
 define('VIEW', ACTION);
 define('URI', $uri_arr[0]);
+define('BASE', $base_folder);
 
+define('HTTP_HOST', 'http' . 
+    (
+        @$_SERVER['HTTPS'] ? 's' : ''
+    ) . '://' . $_SERVER['HTTP_HOST']
+    );
 
 // Main Router
 switch (CONTROLLER) {
@@ -95,7 +101,7 @@ $template = new Template(
     array(
         'content' => $application->$method(),
         'menus_1' => @$application->menus[1],
-        'services_0' => @application->services[0];
-        'page_content_db' => @$application->page_content_db
+        'page_content_db' => @$application->page_content_db,   
+        'services_0' => @$application->services[0],
     )
 );

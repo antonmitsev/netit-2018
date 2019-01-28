@@ -71,4 +71,90 @@ class Helpers {
         }
         return $item_url;
     }
+
+    public static function shaHash($username, $password) {
+        $data = 
+        hash('sha256',
+            hash ( 'sha256' , $username .
+                hash ( 'sha256' , $password . Config::$salt) 
+            )
+        );
+        return hash('sha256' , $data);
+    }
+
+    public static function shaToken($username, $password) {
+        return substr(hash ( 'sha256' , $username .
+                hash ( 'sha256' , $password . Config::$salt) 
+        ), 10, 32);
+    }
+
+    public static function createUser(
+        $db,
+        $email,
+        $password
+    ) {
+
+        if ($db->insert(
+            sprintf("INSERT INTO `user` (email, `password`, registration_token)
+            VALUE (%s, %s, %s);
+            ",
+            $db->escape($email),
+            $db->escape(static::shaHash($email, $password)),
+            $db->escape(static::shaToken($email, $db->escape(static::shaHash($email, $password))))
+        ))) {
+            return static::shaToken($email, $db->escape(static::shaHash($email, $password)));
+        } else {
+            return 'Error!';
+        }
+    }
+    
+    // TODO make this function send email
+    public static function sendActivationLink($email, $signature) {
+        $activation_link = HTTP_HOST . BASE . "admin/confirm_email?signature={$signature}&email={$email}";
+        echo "<p><a href=\"{$activation_link}\"><b>{$activation_link}</b></a></p>";
+    }    
+
+    public static function resetUser(
+        $db,
+        $email
+    ) {
+        $pass = time();
+        if ($db->execute(
+            sprintf("UPDATE `user` SET `registration_token` = %s
+            WHERE email = %s;
+            ",
+            $db->escape(static::shaToken($email, $db->escape(static::shaHash($email, $pass)))),
+            $db->escape($email)
+        ))) {
+            return static::shaToken($email, $db->escape(static::shaHash($email, $pass)));
+        } else {
+            return 'Error!';
+        }
+    }
+
+    // TODO make this function send email
+    public static function sendResetLink($email, $signature) {
+        $activation_link = HTTP_HOST . BASE . "admin/confirm_reset_password?signature={$signature}&email={$email}";
+        echo "<p><a href=\"{$activation_link}\"><b>{$activation_link}</b></a></p>";
+    }    
+
+    public static function confirmEmail($db, $email, $token) {
+        if(trim($token) == '') {
+            return false;
+        }
+
+        $user_data = Helpers::getUserData($db, $email);
+        if(count($user_data) > 0) {
+            if($user_data[0]['registration_token'] == $token) {
+                $db->execute(
+                    sprintf(
+                        "UPDATE `user` SET `active` = 1, registration_token = NULL WHERE `user_id` = %d;",
+                        (int)$user_data[0]['user_id']
+                    )
+                );
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -49,17 +49,85 @@ class AdminController extends BaseController {
             
     }    
 
-    function action_register() {        
+    function action_register() {    
+       
+        //var_dump($_SESSION['captcha']);
+        $false_captcha = false;
+        
+
         if(isset($_POST['submitter'])) {
-                // Form submitted
-            if ($_SESSION['captcha'] == $_POST['captcha']) {
-                // Captcha correct!
+            // var_dump(helpers::shaHash(@$_POST['email'], @$_POST['password']));
+            $false_captcha = true;
+            // Form submitted
+            if(@$_POST['password'] !== @$_POST['password_repeat']) {
+                return 'Паролите не съвпадат!';
+            } 
+            
+            if(count(Helpers::getUserData($this->dbConn, $_POST['email'])) > 0) {
+                return 'Този email вече има регистрация!';
             }
-        } else {
+
+            if (
+                mb_strtolower($_SESSION['captcha']["code"]) 
+                == mb_strtolower($_POST['captcha'])
+                ) {
+                    $signature = Helpers::createUser(
+                        $this->dbConn,
+                        $_POST['email'],
+                        $_POST['password']
+                    );
+                    // TODO make this function send email
+                    Helpers::sendActivationLink($_POST['email'], $signature);
+
+                    // Captcha correct!
+                    return 'Успешна регистрация!';
+            }
+        } 
+        
+        if($false_captcha) {
+            return 'Грешен код от изображението!';
+        }
+        
+        if(!isset($_POST['submitter'])) {
             // Not submitted
             $_SESSION['captcha'] = simple_php_captcha();
-            return '<img src="' . $_SESSION['captcha']['image_src'] . '" alt="CAPTCHA" />';
+            return $_SESSION['captcha']["code"];//=> string(5) "CfW2R" 
+            // '<img src="' . $_SESSION['captcha']['image_src'] . '" alt="CAPTCHA" />';
         }
+    }
+
+    public function action_confirm_email() {
+        if(Helpers::confirmEmail(
+            $this->dbConn,
+            @$_GET['email'],
+            @$_GET['signature']
+        )){
+            return 'Успешно потвърден email <b>' . $_GET['email'] . '</b>!';
+        } else {
+            return 'Невалиден линк за активация!';
+        }
+    }
+
+    public function action_reset_password() {
+        //TODO Check CAPTCHA!!!
+        if (@$_POST['email']) {
+            $signature = Helpers::resetUser(
+                $this->dbConn,
+                $_POST['email']
+            );
+            if(count(Helpers::getUserData($this->dbConn, $_POST['email'])) > 0) {
+                // TODO make this function send email
+                Helpers::sendResetLink($_POST['email'], $signature);
+            }            
+            return 'Изпратен е линк на посочения мейл!';
+        }
+    }
+
+    public function action_confirm_reset_password() {
+        // TODO check token and email
+        // TODO Create View with password fields
+        // TODO Change/Reset password in DB
+        // Opt. Send email for reset pass
     }
 
 #### Pages    
