@@ -44,6 +44,19 @@
 - name
 - active
 
+### `blog` - Blog table
+> CREATE TABLE `wd_2018`.`blog` ( `blog_id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `title` VARCHAR(150) NOT NULL , `description` VARCHAR(2500) NOT NULL , `picture` VARCHAR(250) NOT NULL , `date_add` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `creator` INT NULL , `comment_count` INT UNSIGNED NOT NULL DEFAULT '0' , `position` INT NOT NULL DEFAULT '0' , `active` INT NOT NULL DEFAULT '0' , `page_id` INT NOT NULL , PRIMARY KEY (`blog_id`)) ENGINE = InnoDB;
+- blog_id
+- title
+- description
+- picture
+- date_add
+- creator
+- comment_count
+- position
+- active
+- page_id
+
 ## PHP Boilerplate (low level)
 
 ### Routing

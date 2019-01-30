@@ -63,6 +63,21 @@ class Helpers {
         );
     }
     
+    // TODO get all service categories 
+    // Add cats in DB!!!
+    // All cats, All active/inactive 
+    public static function getBlogItems($db, $cat_id = 0, $active = 1) {
+        return $db->select(
+            sprintf("SELECT * FROM `blog` WHERE 
+                `active` = %d
+                # AND `cat_id` = %d
+                ORDER BY `position` ASC;",
+                (int)$active,
+                (int)$cat_id
+            )
+        );
+    }
+
     public static function menuItemFormat($base_folder , $item_url) {
         if (
             strpos($item_url, '//') === false

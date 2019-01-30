@@ -108,7 +108,7 @@
     </section>
 
     <section class="ftco-section">
-    	<div class="container"><h1>TTT</h1>
+    	<div class="container">
 <?php echo @$params['page_content'];?>
     	</div>
     </section>

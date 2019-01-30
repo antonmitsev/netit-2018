@@ -7,6 +7,7 @@ class Template {
         $this->params = $params;
         $this->viewNames();
 
+        // Print this!!!
         $this->params['page_content'] = $this->fetchView($this->params['content']);
         $this->printLayout($this->params);
     }

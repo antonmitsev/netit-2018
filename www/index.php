@@ -70,6 +70,8 @@ define('LAYOUT', CONTROLLER);
 define('VIEW', ACTION);
 define('URI', $uri_arr[0]);
 define('BASE', $base_folder);
+define('BASE_IMAGES', BASE . 'images/');
+define('BASE_PICTURES', BASE_IMAGES . 'pictures/');
 
 define('HTTP_HOST', 'http' . 
     (
@@ -84,6 +86,7 @@ switch (CONTROLLER) {
         echo $_SESSION['captcha'];
         exit(0);
     case 'ajax':
+    case 'blog':
     case 'admin':
         $class = CONTROLLER . 'Controller';
         break;
@@ -92,16 +95,19 @@ switch (CONTROLLER) {
 }
 
 $method = 'action_' . ACTION;
+
 if (! method_exists($class, $method)) {
     $method = 'action_default';
 }
 
 $application = new $class();
+
 $template = new Template(
     array(
         'content' => $application->$method(),
         'menus_1' => @$application->menus[1],
         'page_content_db' => @$application->page_content_db,   
         'services_0' => @$application->services[0],
+        // 'blog_0' => @$application->blog[0],
     )
 );

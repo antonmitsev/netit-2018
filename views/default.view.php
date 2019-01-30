@@ -1,3 +1,4 @@
-<div id="content"><?php 
+<div id="content">
+    <?php 
 echo $content;
 ?></div>
