@@ -63,19 +63,60 @@ class Helpers {
         );
     }
     
+    public static function getBlogItemsCount($db) {
+        $query = "SELECT COUNT(blog_id) as cnt FROM blog
+            WHERE `active` = 1";
+        $result = $db->select($query);
+        return $result[0]['cnt'];
+    }
+    
+    public static function pagesCount($records_count, $items_per_page = 0) {
+        if ($items_per_page <= 0) {
+            return 1;
+        }
+        return ceil($records_count / $items_per_page);
+    }
+
     // TODO get all service categories 
     // Add cats in DB!!!
     // All cats, All active/inactive 
-    public static function getBlogItems($db, $cat_id = 0, $active = 1) {
-        return $db->select(
-            sprintf("SELECT * FROM `blog` WHERE 
-                `active` = %d
-                # AND `cat_id` = %d
-                ORDER BY `position` ASC;",
+    public static function getBlogItems(
+        $db,
+        $limit = 0,
+        $offset = 0, 
+        $cat_id = 0, $active = 1
+    ) {
+        if ($limit <= 0 || $offset < 0) {
+            $query = sprintf("SELECT * FROM `blog` WHERE 
+            `active` = %d
+            # AND `cat_id` = %d
+            ORDER BY `position` ASC;",
                 (int)$active,
                 (int)$cat_id
-            )
+            );
+        } else {
+            $query = sprintf("SELECT * FROM `blog` WHERE 
+            `active` = %d
+            ORDER BY `position` ASC
+            LIMIT %d 
+            OFFSET %d
+            ;",
+                (int)$active,
+                (int)$limit,
+                (int)$offset
+            );
+        }
+        // LIMIT 10 OFFSET 15
+        return $db->select(
+            $query
         );
+    }
+
+    public static function blogPageUrl($page_number = 0, $items_per_page = 0) {
+        if ($page_number == 0 || $items_per_page == 0) {
+            return '#';
+        }
+        return BASE . 'blog/?page=' . (int)$page_number . '&amp;items=' . (int)$items_per_page;
     }
 
     public static function menuItemFormat($base_folder , $item_url) {

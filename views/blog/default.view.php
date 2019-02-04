@@ -1,11 +1,19 @@
 <div class="row d-flex">
 
 <?php 
+$blog_items = $content['blog_items'];
+$items_per_page = $content['items_per_page'];
+$pages_count = $content['pages_count'];
 
-$items_per_page = 3;
-$pages = ceil(count($content) / $items_per_page);
+$page_number = (int)@$_GET['page'];
+$page_number_plus1 = 
+	$page_number < $pages_count ? $page_number + 1 : 0;
+$page_number_minus1 = 
+	$page_number > 1 ? $page_number - 1 : 0;
+
+
 //TODO - divide into pages! (Blocks);
-foreach($content as $item): ?>
+foreach($blog_items as $item): ?>
 	          <div class="col-md-4 d-flex ftco-animate">
 	          	<div class="blog-entry align-self-stretch">
 	              <a href="blog-single.html" class="block-20" style="background-image: url('<?php echo (BASE_PICTURES . $item['picture']);?>');">
@@ -27,11 +35,17 @@ foreach($content as $item): ?>
 	          <div class="col text-center">
 	            <div class="block-27">
 	              <ul>
-								<li><a href="#">&lt;</a></li>
-<?php for($page = 0; $page < $pages; $page ++): ?>
-	                <li class="<?php echo ($page == 0 ? 'active' : '');?>"><span><?php echo ($page + 1);?></span></li>
+								<li><a href="<?php echo Helpers::blogPageUrl($page_number - 1, $items_per_page);?>">&lt;</a></li>
+<?php for($page = 0; $page < $pages_count; $page ++): ?>
+	                <li class="<?php echo ((($page + 1) == $page_number) ? 'active' : '');?>">
+										<a href="<?php echo Helpers::blogPageUrl($page + 1, $items_per_page);?>">
+											<span>
+											<?php echo ($page + 1);?>
+											</span>
+										</a>
+									</li>
 <?php endfor;?>
-	                <li><a href="#">&gt;</a></li>
+	                <li><a href="<?php echo Helpers::blogPageUrl($page_number + 1, $items_per_page);?>">&gt;</a></li>
 	              </ul>
 	            </div>
 	          </div>
